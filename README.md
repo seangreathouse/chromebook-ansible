@@ -13,7 +13,9 @@ While Chrome OS syncs all your native and Android configuration to your Google a
 - The option to use separate git repositories for core Ansible playbooks and user-defined custom config, enabling:
   - Use of the core public repository for code to get future updates and fixes without forking and merging in git.
   - A separate private repository for your configuration, arbitrary customizations and (encrypted) secrets
-- Modular includes for common applications: VS Code, Terraform, Docker, gcloud GCP command line tools, etc.  *See: [*Included Applications*](#Included-Applications)*
+- Modular includes for common applications: VS Code, Terraform, Docker, gcloud GCP command line tools, etc.  *See: [*Included Applications*](#Included-Applications)*  
+
+*Note: This is not an officially supported Google product*
 
 ---
 ###### Navigate: | [*Top*](#chromebook-ansible) | [*Quick Start*](#Quick-Start) | [*Full Setup*](#Full-Setup) | [*Included-Applications*](#Included-Applications) | [*Architecture*](#Architecture) |  
