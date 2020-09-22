@@ -1,0 +1,48 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: get Master PDF Editor version
+  get_url:
+    url: https://code-industry.net/get-master-pdf-editor-for-ubuntu/?download
+    dest: /tmp/master-pdf-editor.version
+
+- name: set Master PDF Editor url variable
+  shell: /bin/egrep -m1 -o 'https://.*?master-pdf-editor.*?\.deb' /tmp/master-pdf-editor.version
+  register: pdf_editor_url
+
+- set_fact: 
+    pdf_editor_url={{ pdf_editor_url.stdout }}
+  
+- name: set Master PDF Editor deb variable
+  shell: /bin/egrep -m1 -o 'master-pdf-editor.*?\.deb' /tmp/master-pdf-editor.version
+  register: pdf_editor_deb
+
+- set_fact: 
+    pdf_editor_deb={{ pdf_editor_deb.stdout }}
+
+- name: download get Master PDF Editor
+  get_url:
+    url: "{{ pdf_editor_url }}"
+    dest: "/tmp/{{ pdf_editor_deb }}"
+
+- name: install Master PDF Editor dependencies
+  apt:
+    pkg: 
+    - libsane
+  become: true
+
+- name: install Master PDF Editor
+  apt:
+    deb: /tmp/{{ pdf_editor_deb }}
+  become: true

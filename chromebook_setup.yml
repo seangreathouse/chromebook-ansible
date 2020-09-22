@@ -1,0 +1,81 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+## run as:
+## ansible-playbook cb-linux/cblinux_setup.yml --extra-vars '{"cb_localhost":"my_chromebook.local"}'
+## where my_chromebook.local is the custom localhost
+
+- hosts: "{{ cb_localhost | default('localhost')}}"
+  vars:
+    env_ansible_config: "{{ lookup('env','ANSIBLE_CONFIG') }}"
+    ansible_config: "{{ env_ansible_config if env_ansible_config != '' else './'}}"
+  
+  tasks:
+    ## Debian Base
+    - include_tasks: ./includes/debian_base.yml
+      name: run debian_base setup
+      when: debian_base_include and debian_base_include is defined
+    - include_tasks: "{{ debian_base_custom_include }}"
+      name: run debian_base custom setup
+      when: debian_base_include and debian_base_custom_include is defined
+    ## Gcloud: Google Cloud command line tool
+    - include_tasks: ./includes/gcloud.yml
+      name: run gcloud setup
+      when: gcloud_include and gcloud_include is defined
+    - include_tasks: "{{ gcloud_custom_include }}"
+      name: run gcloud custom setup
+      when: gcloud_include and gcloud_custom_include is defined
+    ## VSCode IDE
+    - include_tasks: ./includes/vscode.yml
+      name: run vscode stup
+      when: vscode_include and vscode_include is defined
+    - include_tasks: "{{ vscode_custom_include }}"
+      name: run vscode custom setup
+      when: vscode_include and vscode_custom_include is defined
+    ## Terraform 
+    - include_tasks: ./includes/terraform.yml
+      name: run terraform setup
+      when: terraform_include and terraform_include is defined
+    - include_tasks: "{{ terraform_custom_include }}"
+      name: run terraform custom setup
+      when: terraform_include and terraform_custom_include is defined 
+    ## Docker CE
+    - include_tasks: ./includes/docker.yml
+      name: run docker setup
+      when: docker_include and docker_include is defined
+    - include_tasks: "{{ docker_custom_include }}"
+      name: run docker custom setup
+      when: docker_include and docker_custom_include is defined
+    ## GIMP image editor
+    - include_tasks: ./includes/gimp.yml
+      name: run gimp setup
+      when: gimp_include and gimp_include is defined
+    - include_tasks: "{{ gimp_custom_include }}"
+      name: run gimp custom setup
+      when: gimp_include and gimp_custom_include is defined
+    ## Master PDF Editor 
+    - include_tasks: ./includes/master_pdf.yml
+      name: run master_pdf setup
+      when: master_pdf_include and master_pdf_include is defined
+    - include_tasks: "{{ master_pdf_custom_include }}"
+      name: run master_pdf custom setup
+      when: master_pdf_include and master_pdf_custom_include is defined
+    ## User defined task list 
+    - include_tasks: "{{ user_defined_custom_include }}"
+      name: run user_defined custom setup
+      when: user_defined_custom_include is defined
+
+- name: Import user-defined playbook
+  import_playbook: "{{ lookup('env','ANSIBLE_CONFIG')}}playbooks_custom/user_defined_playbook.yml"

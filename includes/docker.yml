@@ -1,0 +1,60 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: 'yes'
+    update_cache: yes
+
+- name: install base requirements for Docker
+  become: true
+  apt:
+    pkg: 
+    - apt-transport-https 
+    - ca-certificates 
+    - curl
+    - software-properties-common
+    - aptitude
+    - python3-pip
+    - virtualenv
+    - python3-setuptools
+
+- name: Add Docker Apt signing key
+  become: true
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+
+- name: add Docker repo
+  become: true
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian buster stable
+    state: present
+
+- name: Update apt and install docker-ce
+  become: true
+  apt: 
+    update_cache: yes
+    pkg:
+      docker-ce
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: adding user to docker group
+  become: true
+  user: name="{{ lookup('env','USER') }}"
+        groups=docker
+        append=yes
