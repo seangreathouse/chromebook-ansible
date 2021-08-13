@@ -26,6 +26,8 @@ While Chrome OS syncs all your native and Android configuration to your Google a
   This project requires a fresh Linux environment.  If you have an existing Linux container, [back it up](https://support.google.com/chromebook/answer/9592813), then delete and replace it.  
 - Open the Terminal App, paste the following command to download and run the bootstrap script.  (Terminal requires ctrl-shift-v to paste)  
   `curl -q -o ./bootstrap.sh https://raw.githubusercontent.com/seangreathouse/chromebook-ansible/master/bootstrap.sh && bash ./bootstrap.sh`  
+  *Short URL*  
+  `curl -q -o ./bootstrap.sh https://bit.ly/boot-ans && bash ./bootstrap.sh`  
 - At the prompt select "1" for a Quick Start deployment.  
   The bootstrap script should now run uninterrupted.  
 - When the script is done enter:
