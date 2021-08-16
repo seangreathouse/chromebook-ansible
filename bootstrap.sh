@@ -195,6 +195,7 @@ sudo grep 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' /etc
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 sudo apt-get update
 sudo apt-get install -y ansible
+sudo apt-get install -y ansible-base
 sudo apt-get autoremove -y
 
 echo "creating bash alias 'chromebook-ansible-playbook' in .bashrc"
@@ -218,7 +219,7 @@ fi
 
 echo $'\n\n'$DIVIDER
 echo -e "bootstrap.sh is done. \n"
-echo -e 'Run: \nsource $HOME/.bashrc \nThen run: \nchromebook-ansible-playbook'
+echo -e 'Run: \nsource $HOME/.bashrc\nchromebook-ansible-playbook'
 
 
 
