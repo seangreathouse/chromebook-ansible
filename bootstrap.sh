@@ -147,14 +147,15 @@ if [ $DEPLOYMENT_CHOICE == "FULL_SETUP" ]
         chmod 700 $HOME/.ssh
         touch $HOME/.ssh/id_temp
         touch $HOME/.ssh/id_temp.pub
-        chmod 600 $HOME/.ssh/*
         echo "$PRIVATE_KEY" > $HOME/.ssh/id_temp
         echo "$PUBLIC_KEY" > $HOME/.ssh/id_temp.pub
+        echo "$PUBLIC_KEY" > $HOME/.ssh/authorized_keys
         ## Check for key type
         ssh-keygen -l -f $HOME/.ssh/id_temp
         KEY_TYPE=`ssh-keygen -l -f $HOME/.ssh/id_temp |awk -F '(' '{print $2}'|awk -F ')' '{print tolower ($1)}'`
         mv $HOME/.ssh/id_temp $HOME/.ssh/id_$KEY_TYPE 
         mv $HOME/.ssh/id_temp.pub $HOME/.ssh/id_$KEY_TYPE.pub
+        chmod 600 $HOME/.ssh/*
         echo $'\n'$DIVIDER
         echo "$KEY_TYPE key detected, id_$KEY_TYPE & id_$KEY_TYPE.pub written to  $HOME/.ssh"
         echo $'\n'$DIVIDER
