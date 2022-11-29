@@ -14,7 +14,7 @@
 
 ---
 ## run as:
-## ansible-playbook cb-linux/cblinux_setup.yml --extra-vars '{"cb_localhost":"my_chromebook.local"}'
+## ansible-playbook ./chromebook_setup.yml --extra-vars '{"cb_localhost":"my_chromebook.local"}'
 ## where my_chromebook.local is the custom localhost
 
 - hosts: "{{ cb_localhost | default('localhost')}}"
