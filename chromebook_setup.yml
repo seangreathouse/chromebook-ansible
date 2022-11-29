@@ -13,9 +13,20 @@
 # limitations under the License.
 
 ---
-## run as:
-## ansible-playbook cb-linux/cblinux_setup.yml --extra-vars '{"cb_localhost":"my_chromebook.local"}'
-## where my_chromebook.local is the custom localhost
+## ## Usage:
+## You can specify a value of "my_chromebook.local" for the `cb_localhost` variable,
+## which otherwise defaults to 'localhost':
+## ```sh
+## ansible-playbook ./chromebook_setup.yml --extra-vars '{"cb_localhost":"my_chromebook.local"}'
+## ansible-playbook ./chromebook_setup.yml --extra-vars "cb_localhost=my_chromebook.local vscode_include=True"
+## ```
+## You can include vars from a vars file:
+## ```sh
+## ansible-playbook ./chromebook_setup.yml --extra-vars "@a_vars_file.yml"  # or .json or .txt
+## ```
+## ## References:
+## - https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#where-to-set-variables
+## - https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#defining-variables-at-runtime
 
 - hosts: "{{ cb_localhost | default('localhost')}}"
   vars:
